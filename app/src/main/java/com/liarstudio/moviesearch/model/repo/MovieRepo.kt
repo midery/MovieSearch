@@ -8,7 +8,7 @@ import com.liarstudio.moviesearch.model.api.MovieApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MovieRepoMVP {
+class MovieRepo {
 
     companion object {
         const val LANG_RU = "RU"
@@ -24,24 +24,22 @@ class MovieRepoMVP {
     fun discover(
         onSuccess: (List<Movie>) -> Unit,
         onError: (Throwable) -> Unit = { }
-    ) =
+    ) {
         movieApi
             .discover(
                 API_KEY,
                 LANG_RU
             )
             .enqueue(
-                RetrofitCallback(
-                    { onSuccess(it.convert()) },
-                    onError
-                )
+                TODO("retrofit callback" L)
             )
+    }
 
     fun search(
         title: String,
         onSuccess: (List<Movie>) -> Unit,
         onError: (Throwable) -> Unit = { }
-    ) =
+    ) {
         movieApi
             .search(
                 API_KEY,
@@ -49,25 +47,32 @@ class MovieRepoMVP {
             )
             .enqueue(
                 RetrofitCallback(
-                    { onSuccess(it.convert()) },
-                    onError
+                    { data -> onSuccess(data.convert()) },
+                    { error -> onError(error) }
                 )
             )
-
+    }
 
     fun findSame(
         movie: Movie,
         onSuccess: (List<Movie>) -> Unit,
         onError: (Throwable) -> Unit = { }
-    ) = movieApi
-        .search(
-            API_KEY,
-            LANG_RU, movie.title.split(' ')[0]
-        )
-        .enqueue(
-            RetrofitCallback(
-                { onSuccess(it.convert()) },
-                onError
+    ) {
+        movieApi
+            .search(
+                API_KEY,
+                LANG_RU,
+                findSamePredicate(movie)
             )
-        )
+            .enqueue(
+                RetrofitCallback(
+                    { data -> onSuccess(data.convert()) },
+                    { error -> onError(error) }
+                )
+            )
+    }
+
+    private fun findSamePredicate(movie: Movie): String {
+        return TODO("same movie")
+    }
 }

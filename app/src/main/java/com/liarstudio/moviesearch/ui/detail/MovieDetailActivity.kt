@@ -16,6 +16,12 @@ class MovieDetailActivity : AppCompatActivity() {
         showMovie(intent.getSerializableExtra(MOVIE_EXTRA) as Movie)
     }
 
+    fun showSame(sameMovies: List<Movie>) {
+        movie_same_name_1.text = sameMovies.getOrNull(0)?.title
+        movie_same_name_2.text = sameMovies.getOrNull(1)?.title
+        movie_same_name_3.text = sameMovies.getOrNull(2)?.title
+    }
+
     private fun showMovie(movie: Movie) {
         movie_title_tv.text = movie.title
 
