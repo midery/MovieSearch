@@ -6,8 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.liarstudio.moviesearch.ui.detail.MovieDetailActivity
 import com.liarstudio.moviesearch.R
@@ -22,9 +21,7 @@ class MainActivity : AppCompatActivity() {
     val adapter = EasyAdapter()
     val controller = MovieListController(onMovieClick = { openDetailsScreen(it) })
 
-    //TODO инициализация презентера
-
-    val vm = MainVM()
+    lateinit var vm: MainVM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +30,8 @@ class MainActivity : AppCompatActivity() {
         movies_rv.adapter = adapter
         movies_rv.layoutManager = LinearLayoutManager(this)
         search_et.addTextChangedListener(createOnTextChangeListener()) //TODO поиск текста
+
+        vm = ViewModelProvider(this).get(MainVM::class.java)
         vm.movies.observe(this, Observer { result ->
             when {
                 result.isFailure -> showError()
