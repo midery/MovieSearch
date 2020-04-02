@@ -6,6 +6,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.liarstudio.moviesearch.ui.detail.MovieDetailActivity
 import com.liarstudio.moviesearch.R
@@ -22,15 +24,21 @@ class MainActivity : AppCompatActivity() {
 
     //TODO инициализация презентера
 
+    val vm = MainVM()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         movies_rv.adapter = adapter
         movies_rv.layoutManager = LinearLayoutManager(this)
-
-        //TODO загрузка предложений
-//        search_et.addTextChangedListener(createOnTextChangeListener()) //TODO поиск текста
+        search_et.addTextChangedListener(createOnTextChangeListener()) //TODO поиск текста
+        vm.movies.observe(this, Observer { result ->
+            when {
+                result.isFailure -> showError()
+                result.isSuccess -> showMovies(result.getOrThrow())
+            }
+        })
     }
 
     private fun createOnTextChangeListener() = object : TextWatcher {
@@ -44,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             val text = s ?: return
-            //TODO поиск текста
+            vm.onQueryChanged(text.toString())
         }
     }
 

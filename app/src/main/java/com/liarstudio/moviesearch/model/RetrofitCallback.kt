@@ -3,7 +3,7 @@ package com.liarstudio.moviesearch.model
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.IllegalStateException
+import kotlin.IllegalStateException
 
 class RetrofitCallback<T>(
     val onSuccess: (T) -> Unit,
@@ -11,10 +11,15 @@ class RetrofitCallback<T>(
 ) : Callback<T> {
 
     override fun onFailure(call: Call<T>, t: Throwable) {
-        //todo on error
+        onError(t)
     }
 
     override fun onResponse(call: Call<T>, response: Response<T>) {
-        //TODO check response body
+        val body = response.body()
+        if (response.isSuccessful && body != null) {
+            onSuccess(body)
+        } else {
+            onError(IllegalStateException("Response isn't successful"))
+        }
     }
 }

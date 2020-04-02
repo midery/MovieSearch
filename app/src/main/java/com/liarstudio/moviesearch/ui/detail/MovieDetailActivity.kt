@@ -3,12 +3,15 @@ package com.liarstudio.moviesearch.ui.detail
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.liarstudio.moviesearch.R
 import com.liarstudio.moviesearch.domain.Movie
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 
 class MovieDetailActivity : AppCompatActivity() {
+
+    val vm = MovieListVM()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +27,13 @@ class MovieDetailActivity : AppCompatActivity() {
 
     private fun showMovie(movie: Movie) {
         movie_title_tv.text = movie.title
+        
+        vm.sameMovies.observe(this, Observer { result ->
+            when {
+                result.isFailure -> showError()
+                result.isSuccess -> showSame(result.getOrThrow())
+            }
+        })
 
         Glide.with(movie_poster_iv)
             .load("https://image.tmdb.org/t/p/w370_and_h556_bestv2" + movie.posterUrl)
@@ -33,7 +43,7 @@ class MovieDetailActivity : AppCompatActivity() {
     }
 
     private fun findSame(movie: Movie) {
-        //TODO поиск похожих фильмов
+        vm.findSame(movie)
     }
 
     private fun showError() {
