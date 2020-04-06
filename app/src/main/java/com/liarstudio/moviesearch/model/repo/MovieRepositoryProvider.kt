@@ -1,5 +1,5 @@
 package com.liarstudio.moviesearch.model.repo
 
 object MovieRepositoryProvider {
-    val movieRepository by lazy { MovieRepo() }
+    val movieRepository: MovieRepo by lazy { MovieRepoImpl() }
 }

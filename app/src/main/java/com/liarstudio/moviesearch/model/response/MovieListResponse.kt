@@ -1,7 +1,7 @@
 package com.liarstudio.moviesearch.model.response;
 
 import com.google.gson.annotations.SerializedName;
-import com.liarstudio.moviesearch.domain.Movie
+import com.liarstudio.moviesearch.entity.Movie
 import com.liarstudio.moviesearch.model.response.base.BaseResponse
 
 /**

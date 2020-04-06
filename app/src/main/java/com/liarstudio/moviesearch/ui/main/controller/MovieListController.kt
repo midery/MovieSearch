@@ -3,7 +3,7 @@ package com.liarstudio.moviesearch.ui.main.controller
 import android.view.ViewGroup
 import android.widget.TextView
 import com.liarstudio.moviesearch.R
-import com.liarstudio.moviesearch.domain.Movie
+import com.liarstudio.moviesearch.entity.Movie
 import ru.surfstudio.android.easyadapter.controller.BindableItemController
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 

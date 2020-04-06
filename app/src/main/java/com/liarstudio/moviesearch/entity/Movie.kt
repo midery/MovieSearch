@@ -1,4 +1,4 @@
-package com.liarstudio.moviesearch.domain
+package com.liarstudio.moviesearch.entity
 
 import java.io.Serializable
 

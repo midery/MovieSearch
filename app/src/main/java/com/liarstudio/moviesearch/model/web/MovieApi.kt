@@ -1,4 +1,4 @@
-package com.liarstudio.moviesearch.model.api
+package com.liarstudio.moviesearch.model.web
 
 import com.liarstudio.moviesearch.model.response.MovieListResponse
 import retrofit2.Call

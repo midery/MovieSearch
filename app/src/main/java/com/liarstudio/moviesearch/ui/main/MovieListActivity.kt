@@ -10,18 +10,18 @@ import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.liarstudio.moviesearch.ui.detail.MovieDetailActivity
 import com.liarstudio.moviesearch.R
-import com.liarstudio.moviesearch.domain.Movie
+import com.liarstudio.moviesearch.entity.Movie
 import com.liarstudio.moviesearch.ui.main.controller.MovieListController
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 
-class MainActivity : AppCompatActivity() {
+class MovieListActivity : AppCompatActivity() {
 
     val adapter = EasyAdapter()
     val controller = MovieListController(onMovieClick = { openDetailsScreen(it) })
 
-    lateinit var vm: MainVM
+    lateinit var vm: MovieListVM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         movies_rv.layoutManager = LinearLayoutManager(this)
         search_et.addTextChangedListener(createOnTextChangeListener())
 
-        vm = MainVM()
+        vm = ViewModelProvider(this).get(MovieListVM::class.java)
 
         vm.movies.observe(this, Observer { result ->
             when {
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             val text = s ?: return
-//            vm.searchText.value = text.toString()
+            vm.searchText.value = text.toString()
         }
     }
 
