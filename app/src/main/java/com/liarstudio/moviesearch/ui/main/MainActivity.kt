@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     val adapter = EasyAdapter()
     val controller = MovieListController(onMovieClick = { openDetailsScreen(it) })
 
-    //TODO инициализация презентера
+    val presenter = MainPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +29,8 @@ class MainActivity : AppCompatActivity() {
         movies_rv.adapter = adapter
         movies_rv.layoutManager = LinearLayoutManager(this)
 
-        //TODO загрузка предложений
-//        search_et.addTextChangedListener(createOnTextChangeListener()) //TODO поиск текста
+        presenter.onCreate()
+        search_et.addTextChangedListener(createOnTextChangeListener())
     }
 
     private fun createOnTextChangeListener() = object : TextWatcher {
@@ -44,11 +44,11 @@ class MainActivity : AppCompatActivity() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             val text = s ?: return
-            //TODO поиск текста
+            presenter.onQueryChanged(text.toString())
         }
     }
 
-    private fun showError() {
+    fun showError() {
         Toast.makeText(
             this,
             "Ошибка при загрузке",

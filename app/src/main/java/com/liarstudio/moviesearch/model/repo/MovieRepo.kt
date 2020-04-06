@@ -31,7 +31,10 @@ class MovieRepo {
                 LANG_RU
             )
             .enqueue(
-                TODO("retrofit callback" L)
+                RetrofitCallback(
+                    { data -> onSuccess(data.convert()) },
+                    { error -> onError(error) }
+                )
             )
     }
 
@@ -43,7 +46,8 @@ class MovieRepo {
         movieApi
             .search(
                 API_KEY,
-                LANG_RU, title
+                LANG_RU,
+                title
             )
             .enqueue(
                 RetrofitCallback(
@@ -73,6 +77,6 @@ class MovieRepo {
     }
 
     private fun findSamePredicate(movie: Movie): String {
-        return TODO("same movie")
+        return movie.title.split(' ').first()
     }
 }

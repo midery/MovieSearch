@@ -36,7 +36,7 @@ class MovieDetailActivity : AppCompatActivity() {
         //TODO поиск похожих фильмов
     }
 
-    private fun showError() {
+    fun showError() {
         Toast.makeText(this, "Ошибка при загрузке", Toast.LENGTH_SHORT).show()
     }
 
