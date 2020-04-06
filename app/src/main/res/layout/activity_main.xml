@@ -7,11 +7,11 @@
         android:orientation="vertical"
         tools:context=".ui.main.MainActivity">
 
-    <EditText
-            android:id="@+id/search_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"/>
+<!--    <EditText-->
+<!--            android:id="@+id/search_et"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="16dp"/>-->
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/movies_rv"

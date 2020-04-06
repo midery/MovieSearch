@@ -26,8 +26,8 @@ import ru.surfstudio.android.easyadapter.ItemList
 
 class MainActivity : AppCompatActivity() {
 
-    val adapter = EasyAdapter()
-    val controller = MovieListController(onMovieClick = { openDetailsScreen(it) })
+    private val adapter = EasyAdapter()
+    private val controller = MovieListController(onMovieClick = { openDetailsScreen(it) })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,35 +35,6 @@ class MainActivity : AppCompatActivity() {
 
         movies_rv.adapter = adapter
         movies_rv.layoutManager = LinearLayoutManager(this)
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val movieApi = retrofit.create(MovieApi::class.java)
-        val call = movieApi.discover(
-            API_KEY,
-            "RU"
-        )
-
-        call.enqueue(object : Callback<MovieListResponse> {
-            override fun onFailure(call: Call<MovieListResponse>, t: Throwable) {
-                showError()
-            }
-
-            override fun onResponse(
-                call: Call<MovieListResponse>,
-                response: Response<MovieListResponse>
-            ) {
-                if (response.isSuccessful && response.body() != null) {
-                    val list = response.body()?.convert() ?: emptyList()
-                    showMovies(list)
-                }
-            }
-        })
-
-
-//        search_et.addTextChangedListener(createOnTextChangeListener()) //TODO поиск текста
     }
 
     private fun createOnTextChangeListener() = object : TextWatcher {
