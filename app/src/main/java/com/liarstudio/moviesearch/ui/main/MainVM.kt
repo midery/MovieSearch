@@ -11,13 +11,9 @@ class MainVM : ViewModel() {
 
     private val repo = MovieRepositoryProvider.movieRepository
 
-    private val searchText = MutableLiveData<String>().apply { value = "" }
+    val searchText = MutableLiveData<String>()
 
-    fun onQueryChanged(query: String) {
-        searchText.value = query
-    }
-
-    var movies: LiveData<MovieListResult> =
+    val movies: LiveData<MovieListResult> =
         Transformations.switchMap(searchText) { query ->
             if (query.isEmpty()) {
                 repo.discover()

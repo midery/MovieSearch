@@ -29,15 +29,21 @@ class MainActivity : AppCompatActivity() {
 
         movies_rv.adapter = adapter
         movies_rv.layoutManager = LinearLayoutManager(this)
-        search_et.addTextChangedListener(createOnTextChangeListener()) //TODO поиск текста
+        search_et.addTextChangedListener(createOnTextChangeListener())
 
-        vm = ViewModelProvider(this).get(MainVM::class.java)
+        vm = MainVM()
+
         vm.movies.observe(this, Observer { result ->
             when {
                 result.isFailure -> showError()
                 result.isSuccess -> showMovies(result.getOrThrow())
             }
         })
+
+        val isFirstCreate = savedInstanceState == null
+        if (isFirstCreate) {
+            vm.searchText.value = ""
+        }
     }
 
     private fun createOnTextChangeListener() = object : TextWatcher {
@@ -51,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             val text = s ?: return
-            vm.onQueryChanged(text.toString())
+//            vm.searchText.value = text.toString()
         }
     }
 
