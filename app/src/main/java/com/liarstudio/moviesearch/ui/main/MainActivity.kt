@@ -29,7 +29,10 @@ class MainActivity : AppCompatActivity() {
         movies_rv.adapter = adapter
         movies_rv.layoutManager = LinearLayoutManager(this)
 
-        presenter.onCreate()
+        val isFirstCreate = savedInstanceState == null
+        if (isFirstCreate) {
+            presenter.onCreate()
+        }
         search_et.addTextChangedListener(createOnTextChangeListener())
     }
 
@@ -44,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             val text = s ?: return
-            presenter.onQueryChanged(text.toString())
+//            presenter.onQueryChanged(text.toString())
         }
     }
 
