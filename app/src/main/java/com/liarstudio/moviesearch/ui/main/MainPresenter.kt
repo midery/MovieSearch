@@ -1,25 +1,18 @@
 package com.liarstudio.moviesearch.ui.main
 
-import com.liarstudio.moviesearch.model.repo.MovieRepoMVP
+import com.liarstudio.moviesearch.model.repo.MovieRepositoryProvider
 
 class MainPresenter(
-        val view: MainActivity
-    ) {
-        val repo = MovieRepoMVP()
+    private val view: MainActivity
+) {
 
-        fun onCreate() {
-            getMovies("")
-        }
+    private val repo = MovieRepositoryProvider.movieRepository
 
-        fun onQueryChanged(query: String) {
-            getMovies(query)
-        }
-
-        private fun getMovies(query: String) {
-            if (query.isEmpty()) {
-                repo.discover({ view.showMovies(it) })
-            } else {
-                repo.search(query, { view.showMovies(it) })
-            }
-        }
+    fun onCreate() {
+        repo.discover({ view.showMovies(it) }, { view.showError() })
     }
+
+    fun onQueryChanged(query: String) {
+        repo.search(query, { view.showMovies(it) }, { view.showError() })
+    }
+}
